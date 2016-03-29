@@ -1,0 +1,24 @@
+{
+  "name": "linter-elixir-credo",
+  "version": "0.0.1",
+  "linter-package": true,
+  "description": "Lint `Elixir` on the fly, using Credo",
+  "repository": "https://github.com/smeevil/linter-elixir-credo",
+  "license": "MIT",
+  "engines": {
+    "atom": ">=1.0.0 <2.0.0"
+  },
+  "providedServices": {
+    "linter": {
+      "versions": {
+        "1.1.0": "provideLinter"
+      }
+    }
+  },
+  "package-deps": [
+    "linter"
+  ],
+  "dependencies": {
+    "atom-linter": "^4.6.1"
+  }
+}
