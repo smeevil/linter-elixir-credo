@@ -1,6 +1,6 @@
 {
   "name": "linter-elixir-credo",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "linter-package": true,
   "description": "Lint `Elixir` on the fly, using Credo",
   "repository": "https://github.com/smeevil/linter-elixir-credo",
