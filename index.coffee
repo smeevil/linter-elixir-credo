@@ -8,10 +8,10 @@ lint = (editor) ->
     if projPath?
       return projPath
     null
-    
+
   stdin = editor.getText()
   stream = 'both'
-    
+
   ParseOutput = (editor, output) ->
     return [] if output.stderr == '** (Mix) The task "credo" could not be found'
     console.log output
@@ -21,6 +21,7 @@ lint = (editor) ->
         matches = line.match(/^.*?:(\d+):?(\d+)?:\s(.*)/)
         line = (parseInt(matches[1]) - 1) if matches[1]
         col = (parseInt(matches[2]) - 1) if matches[2]
+        col = 0 if isNaN(col)
         error = matches[3]
         errors.push {
           type: 'Warning',
