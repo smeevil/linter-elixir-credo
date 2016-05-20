@@ -13,7 +13,7 @@ lint = (editor) ->
   stream = 'both'
 
   ParseOutput = (editor, output) ->
-    return [] if output.stderr == '** (Mix) The task "credo" could not be found'
+    return [] if output.stderr == '** (Mix) The task "credo" could not be found' || !output.stdout
     console.log output
     errors = []
     try
@@ -35,7 +35,9 @@ lint = (editor) ->
     errors
 
   cwd = projectPath(editor)
-  helpers.exec("mix", ['credo', '--read-from-stdin', '--format', 'flycheck'], {cwd, stdin, stream}).then (result) ->
+  userFlags = atom.config.get('linter-elixir-credo.flags').split(' ')
+  args = ['credo'].concat(userFlags).concat(['--read-from-stdin', '--format', 'flycheck'])
+  helpers.exec("mix", args, {cwd, stdin, stream}).then (result) ->
     ParseOutput(editor, result)
 
 linter =
@@ -49,12 +51,12 @@ linter =
 
 module.exports =
   config:
-    command:
+    flags:
       type: 'string'
-      title: 'Command'
-      default: 'mix credo'
+      title: 'Flags'
+      default: ''
       description: '
-        A linter for elixir using Credo
+        Flags to be appeneded to `mix credo` (such as `--strict`)
       '
 
   provideLinter: -> linter
