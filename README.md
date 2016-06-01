@@ -22,3 +22,6 @@ $ apm install linter-elixir-credo
 
 [linter]: https://github.com/AtomLinter/Linter "Linter"
 [credo]: https://github.com/rrrene/credo "Credo"
+
+## Configuration
+You can add other flags (like `--strict`) to the `mix credo` command in the settings.
