@@ -35,7 +35,7 @@ lint = (editor) ->
     errors
 
   cwd = projectPath(editor)
-  helpers.exec("mix", ['credo', '--read-from-stdin', '--format', 'flycheck'], {cwd, stdin, stream}).then (result) ->
+  helpers.exec(atom.config.get('linter-elixir-credo.executablePath'), ['credo', '--read-from-stdin', '--format', 'flycheck'], {cwd, stdin, stream}).then (result) ->
     ParseOutput(editor, result)
 
 linter =
@@ -56,5 +56,10 @@ module.exports =
       description: '
         A linter for elixir using Credo
       '
+      
+    executablePath:
+      type: 'string',
+      default: 'mix',
+      description: 'Absolute path to the mix executable on your system. Example: /usr/local/bin/mix , by default it checks for mix in your path'
 
   provideLinter: -> linter
