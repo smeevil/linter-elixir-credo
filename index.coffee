@@ -18,17 +18,34 @@ lint = (editor) ->
     errors = []
     try
       for line in output.stdout.split("\n")
-        matches = line.match(/^.*?:(\d+):?(\d+)?:\s(.*)/)
+        matches = line.match(/^.*?:(\d+):?(\d+)?:\s([DRFWC]):\s(.*)/)
         line = (parseInt(matches[1]) - 1) if matches[1]
         col = (parseInt(matches[2]) - 1) if matches[2]
         col = 0 if isNaN(col)
-        error = matches[3]
-        errors.push {
-          type: 'Warning',
-          text: error,
-          range: [[line, 0], [line, col+1]],
-          filePath: editor.getPath()
-        }
+        name = switch matches[3]
+          when 'D' then 'Software Design Suggestion'
+          when 'R' then 'Code Readability Issue'
+          when 'F' then 'Refactoring Opportunity'
+          when 'C' then 'Consistency Issue'
+        type = switch matches[3]
+          when 'D', 'R', 'F' then 'Info'
+          when 'W' then 'Warning'
+          when 'C' then 'Error'
+        error = matches[4]
+        if name?
+          errors.push {
+            type: type,
+            html: "<strong>#{ name }</strong><br>#{ error }",
+            range: [[line, 0], [line, col+1]],
+            filePath: editor.getPath()
+          }
+        else
+          errors.push {
+            type: type,
+            text: error,
+            range: [[line, 0], [line, col+1]],
+            filePath: editor.getPath()
+          }
     catch e
       console.log "linter-elixir-credo error :"
       console.log e
