@@ -53,7 +53,7 @@ lint = (editor) ->
 
   cwd = projectPath(editor)
   userFlags = atom.config.get('linter-elixir-credo.flags').split(' ')
-  args = ['credo'].concat(userFlags).concat(['--read-from-stdin', '--format', 'flycheck'])
+  args = ['credo'].concat(userFlags).concat(['--read-from-stdin', editor.getPath(), '--format', 'flycheck'])
   helpers.exec(atom.config.get('linter-elixir-credo.executablePath'), args, {cwd, stdin, stream}).then (result) ->
     ParseOutput(editor, result)
 
